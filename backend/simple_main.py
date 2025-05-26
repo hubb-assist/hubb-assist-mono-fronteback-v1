@@ -104,6 +104,15 @@ app.add_middleware(
 async def root():
     """
     ## Endpoint Principal
+    Redireciona para o frontend React
+    """
+    from fastapi.responses import RedirectResponse
+    return RedirectResponse(url="/front")
+
+@app.get("/api/status", tags=["🏠 Sistema"])
+async def api_status():
+    """
+    ## Status da API
     Retorna informações básicas sobre a API
     """
     return {
