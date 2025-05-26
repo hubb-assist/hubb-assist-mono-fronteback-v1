@@ -1,4 +1,4 @@
-import { Building, Users, Settings, BarChart, Eye, UserCheck, Brain, Mic } from 'lucide-react'
+import { Building, Users, Settings, BarChart, Eye, UserCheck, Brain } from 'lucide-react'
 import { cn } from '../../lib/utils'
 
 interface SidebarProps {
@@ -8,7 +8,7 @@ interface SidebarProps {
   onClose: () => void
 }
 
-const Sidebar = ({ collapsed, mobileOpen, userType, onClose }: SidebarProps) => {
+const Sidebar = ({ collapsed, mobileOpen, onClose }: SidebarProps) => {
   const menuItems = [
     { icon: BarChart, label: 'Dashboard', href: '#', active: true },
     { icon: Building, label: 'Tenants', href: '#' },

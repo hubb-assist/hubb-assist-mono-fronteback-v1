@@ -1,4 +1,4 @@
-import { Menu, Bell, User } from 'lucide-react'
+import { Menu, Bell } from 'lucide-react'
 
 interface HeaderProps {
   onToggleSidebar: () => void
@@ -6,7 +6,7 @@ interface HeaderProps {
   isMobile: boolean
 }
 
-const Header = ({ onToggleSidebar, collapsed, isMobile }: HeaderProps) => {
+const Header = ({ onToggleSidebar }: HeaderProps) => {
   return (
     <header className="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-6">
       <div className="flex items-center gap-4">
