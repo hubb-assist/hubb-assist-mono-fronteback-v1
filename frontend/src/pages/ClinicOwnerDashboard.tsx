@@ -1,5 +1,5 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { DollarSign, Users, Calendar, TrendingUp, Building2, Settings } from 'lucide-react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
+import { DollarSign, Users, Calendar, TrendingUp } from 'lucide-react'
 
 export default function ClinicOwnerDashboard() {
   return (

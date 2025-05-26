@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
-import { Package, TrendingUp, AlertTriangle, Users, Calendar, BarChart3 } from 'lucide-react'
+import { Package, TrendingUp, AlertTriangle, Users } from 'lucide-react'
 
 export default function CollabLevel2Dashboard() {
   return (

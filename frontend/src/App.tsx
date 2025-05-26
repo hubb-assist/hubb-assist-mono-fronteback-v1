@@ -28,31 +28,31 @@ function App() {
         } />
         
         <Route path="/clinic-owner" element={
-          <AppShell userType="CLINIC_OWNER">
+          <AppShell userType="DONO_CLINICA">
             <ClinicOwnerDashboard />
           </AppShell>
         } />
         
         <Route path="/collab-level1" element={
-          <AppShell userType="COLLAB">
+          <AppShell userType="COLABORADOR">
             <CollabLevel1Dashboard />
           </AppShell>
         } />
         
         <Route path="/collab-level2" element={
-          <AppShell userType="COLLAB">
+          <AppShell userType="COLABORADOR">
             <CollabLevel2Dashboard />
           </AppShell>
         } />
         
         <Route path="/collab-level3" element={
-          <AppShell userType="COLLAB">
+          <AppShell userType="COLABORADOR">
             <CollabLevel3Dashboard />
           </AppShell>
         } />
         
         <Route path="/patient" element={
-          <AppShell userType="PATIENT">
+          <AppShell userType="PACIENTE">
             <PatientDashboard />
           </AppShell>
         } />

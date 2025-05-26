@@ -1,5 +1,5 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { BarChart3, Users, Building2, Activity, TrendingUp, AlertTriangle } from 'lucide-react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
+import { Users, Building2, Activity, TrendingUp, AlertTriangle } from 'lucide-react'
 
 export default function AdminDashboard() {
   return (

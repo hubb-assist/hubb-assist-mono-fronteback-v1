@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
-import { DollarSign, FileText, TrendingUp, Users, Calculator, PieChart } from 'lucide-react'
+import { DollarSign, TrendingUp, Calculator, PieChart } from 'lucide-react'
 
 export default function CollabLevel3Dashboard() {
   return (
