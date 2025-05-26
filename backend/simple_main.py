@@ -104,10 +104,17 @@ app.add_middleware(
 async def root():
     """
     ## Endpoint Principal
-    Redireciona para o frontend React
+    Retorna informações básicas sobre a API
     """
-    from fastapi.responses import RedirectResponse
-    return RedirectResponse(url="/front")
+    return {
+        "message": "🏥 HUBB Assist SaaS API",
+        "version": "1.0.0",
+        "status": "online",
+        "environment": "production",
+        "docs_url": "/docs",
+        "redoc_url": "/redoc",
+        "frontend_url": "https://hubb-assist-mono-fronteback-v1.replit.app:3000/"
+    }
 
 @app.get("/api/status", tags=["🏠 Sistema"])
 async def api_status():
