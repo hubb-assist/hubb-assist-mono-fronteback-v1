@@ -16,7 +16,8 @@ export default defineConfig({
       '.spock.replit.dev'
     ],
     hmr: {
-      clientPort: 443
+      port: 24678,
+      host: '0.0.0.0'
     },
     proxy: {
       '/api': {
