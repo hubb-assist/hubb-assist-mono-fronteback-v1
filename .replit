@@ -53,6 +53,7 @@ waitForPort = 3000
 
 [deployment]
 run = ["sh", "-c", "cd backend && python simple_main.py"]
+deploymentTarget = "cloudrun"
 
 [[ports]]
 localPort = 3000
