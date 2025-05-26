@@ -287,12 +287,97 @@
             letter-spacing: 0.05em;
             margin: 1rem 0 0.5rem 0;
         }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                z-index: 1000;
+            }
+
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .main-content.collapsed {
+                margin-left: 0;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .header {
+                padding: 1rem;
+            }
+
+            .page-content {
+                padding: 1rem;
+            }
+        }
+
+        /* Mobile Overlay */
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-overlay.active {
+                display: block;
+            }
+        }
+
+        /* Responsive Cards */
+        .dashboard-card {
+            min-height: 200px;
+        }
+
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 280px;
+            }
+
+            .header-title h1 {
+                font-size: 1.5rem;
+            }
+
+            .header-title p {
+                display: none;
+            }
+
+            .user-info {
+                flex-direction: column;
+                align-items: flex-end;
+                gap: 0.25rem;
+            }
+
+            .user-avatar {
+                width: 32px;
+                height: 32px;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Mobile Overlay -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+    
     <div class="app-shell">
         <!-- Sidebar -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-logo">
                 <img src="/assets/images/logo_hubb_assisit.png" alt="HUBB Assist">
             </div>
@@ -542,14 +627,54 @@
             }
         }
 
-        // Função para colapsar/expandir sidebar
-        function toggleSidebar() {
-            const sidebar = document.querySelector('.sidebar');
-            const mainContent = document.querySelector('.main-content');
-            
-            sidebar.classList.toggle('collapsed');
-            mainContent.classList.toggle('collapsed');
+        // Toggle sidebar functionality
+        const toggleBtn = document.getElementById('toggleSidebar');
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.querySelector('.main-content');
+        const mobileOverlay = document.getElementById('mobileOverlay');
+
+        function isMobile() {
+            return window.innerWidth <= 768;
         }
+
+        toggleBtn.addEventListener('click', () => {
+            if (isMobile()) {
+                // Mobile behavior - show/hide sidebar with overlay
+                sidebar.classList.toggle('mobile-open');
+                mobileOverlay.classList.toggle('active');
+            } else {
+                // Desktop behavior - collapse/expand sidebar
+                sidebar.classList.toggle('collapsed');
+                mainContent.classList.toggle('collapsed');
+            }
+        });
+
+        // Close sidebar when clicking overlay (mobile)
+        mobileOverlay.addEventListener('click', () => {
+            sidebar.classList.remove('mobile-open');
+            mobileOverlay.classList.remove('active');
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (!isMobile()) {
+                // Reset mobile classes when switching to desktop
+                sidebar.classList.remove('mobile-open');
+                mobileOverlay.classList.remove('active');
+            } else {
+                // Reset desktop classes when switching to mobile
+                sidebar.classList.remove('collapsed');
+                mainContent.classList.remove('collapsed');
+            }
+        });
+
+        // Initialize based on screen size
+        window.addEventListener('DOMContentLoaded', () => {
+            if (isMobile()) {
+                sidebar.classList.remove('collapsed');
+                mainContent.classList.remove('collapsed');
+            }
+        });
 
         // Carregar status na inicialização
         checkAPIStatus();
