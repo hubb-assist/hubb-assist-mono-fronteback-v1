@@ -41,6 +41,18 @@
             position: fixed;
             height: 100vh;
             overflow-y: auto;
+            transition: width 0.3s ease;
+        }
+
+        .sidebar.collapsed {
+            width: 80px;
+        }
+
+        .sidebar.collapsed .sidebar-logo h2,
+        .sidebar.collapsed .nav-item span:last-child,
+        .sidebar.collapsed .nav-section-title {
+            opacity: 0;
+            pointer-events: none;
         }
 
         .sidebar-logo {
@@ -86,6 +98,28 @@
             flex: 1;
             margin-left: 280px;
             min-height: 100vh;
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-content.collapsed {
+            margin-left: 80px;
+        }
+
+        .toggle-btn {
+            background: none;
+            border: 1px solid var(--hubb-border);
+            padding: 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .toggle-btn:hover {
+            background: var(--hubb-hover);
+            border-color: var(--hubb-primary);
         }
 
         .header {
@@ -300,9 +334,18 @@
         <!-- Main Content -->
         <div class="main-content">
             <header class="header">
-                <div class="header-title">
-                    <h1>Dashboard</h1>
-                    <p>Visão geral do sistema HUBB Assist</p>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <button onclick="toggleSidebar()" class="toggle-btn" title="Colapsar/Expandir menu">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
+                    <div class="header-title">
+                        <h1>Dashboard</h1>
+                        <p>Visão geral do sistema HUBB Assist</p>
+                    </div>
                 </div>
                 <div class="user-info">
                     <img src="/assets/images/hubb_pet_icon.png" alt="Avatar" class="user-avatar">
@@ -453,6 +496,15 @@
                     <span class="status-badge" style="background: #f8d7da; color: #721c24;">🔴 Offline</span>
                 `;
             }
+        }
+
+        // Função para colapsar/expandir sidebar
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+            
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('collapsed');
         }
 
         // Carregar status na inicialização
