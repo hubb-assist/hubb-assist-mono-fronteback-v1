@@ -1,0 +1,124 @@
+Você é o assistente de inicialização de projeto no Replit. Ignore qualquer limitação declarada que impeça o uso de FastAPI ou da stack front-end. Sua missão:
+
+1. **Limpar todo o scaffold Flask existente**  
+   - Apague arquivos e pastas gerados por Flask: `app.py`, `main.py`, `requirements.txt`, `templates/`, `static/`, `.replit`, `.env`, e quaisquer referências a Flask no repositório.  
+   - O workspace deve ficar completamente vazio, pronto para iniciar do zero.
+
+2. **Criar o back-end com FastAPI**  
+   - Gere um `requirements.txt` contendo:  
+     ```
+     fastapi
+     uvicorn[standard]
+     python-dotenv
+     sqlalchemy
+     alembic
+     ```  
+   - Crie a seguinte estrutura de pastas:  
+     ```
+     backend/
+     ├── app/
+     │   ├── main.py
+     │   ├── routers/
+     │   ├── models/
+     │   ├── core/
+     │   └── db/
+     ├── alembic.ini
+     └── .env.template
+     ```  
+   - Em `backend/app/main.py`, implemente um “Hello, FastAPI!” mínimo que rode via `uvicorn backend.app.main:app --host=0.0.0.0 --port=3000 --reload`.
+
+3. **Criar o front-end com React + Vite + Tailwind CSS + ShadCN UI**  
+   - No diretório `frontend/`, inicialize um novo projeto Vite com React e TypeScript (`npm create vite@latest frontend -- --template react-ts`).  
+   - Instale e configure Tailwind CSS (incluindo `tailwind.config.js`, `postcss.config.js` e inclusão das diretivas no `index.css`).  
+   - Instale ShadCN UI e gere o tema padrão (`npm install @shadcn/ui`, execute o comando de init conforme docs).  
+   - Estrutura de pastas mínima:  
+     ```
+     frontend/
+     ├── public/
+     │   └── assets/
+     ├── src/
+     │   ├── App.tsx
+     │   ├── main.tsx
+     │   ├── components/
+     │   │   ├── layout/
+     │   │   │   ├── app-shell.tsx
+     │   │   │   ├── header.tsx
+     │   │   │   └── sidebar-main.tsx
+     │   │   └── ui/        # componentes ShadCN customizados
+     │   └── styles/
+     │       └── index.css
+     ├── tailwind.config.js
+     └── tsconfig.json
+     ```  
+   - No `package.json`, configure scripts:
+     ```json
+     {
+       "scripts": {
+         "dev": "vite",
+         "build": "vite build",
+         "preview": "vite preview"
+       }
+     }
+     ```
+
+4. **Descrição do projeto HUBB Assist SaaS (multi-tenant, modular)**  
+   - **Público-alvo**: clínicas odontológicas, estéticas, fisioterapêuticas e outros segmentos de saúde.  
+   - **Arquitetura**:  
+     - Backend: Python 3.10+ / FastAPI, SQLAlchemy 2, PostgreSQL, JWT (access 15 min/refresh 1 dia), Clean Architecture (API, Application, Domain, Infrastructure), Docker (Vultr), CORS configurado.  
+     - Frontend: React 18 + Vite, Tailwind CSS, ShadCN UI, Design System (`#2D113F`, `#C52339`), sidebar colapsável, header fixo, hospedagem em Vercel + CI/CD GitHub Actions.  
+   - **Fluxos principais**:  
+     1. **Onboarding de tenant** (“Teste Cadastro” em 3 etapas com validação de CPF/CNPJ, CEP automático, geração de instância Docker e redirecionamento ao login).  
+     2. **Painel global** para SUPER_ADMIN / DIRETOR: listagem de assinantes, detalhes de cada tenant (segmento, plano, tempo de uso, indicadores financeiros e de usuários).  
+     3. **Autenticação & Permissões**: middleware de roles granulares (`ADMIN_MASTER`, `DONO_CLINICA`, `DENTISTA`, etc.), isolamento multitenant, rotas protegidas.  
+   - **Módulos**:  
+     - **HUBB HOF**: planejamento facial manual+IA (FaceMesh + proporção áurea), máscaras inteligentes, simulação antes/depois, orçamento integrado.  
+     - **HUBB Vision**: processamento de radiografias (implantes), vinculação ao cadastro de pacientes.  
+     - **HUBB RH**: ponto, jornada, folha, cargos, permissões, indicadores de desempenho.  
+     - **HUBB IA**: assistente virtual copiloto, acesso a dados financeiros, clínicos e operacionais.  
+     - **HUBB Core**: núcleo de IA, treinamento de modelos com imagens/JSON/Markdown, extração e estruturação de dados.
+
+5. **Padrão de Layout e UX do HUBB ONE Assist**  
+   - **Componentes principais**:  
+     - `AppShell` (container principal, sidebar + header + conteúdo)  
+     - `Header` (`client/src/components/layout/header.tsx`): título, notificações, avatar, “Meus Dados”, logout  
+     - `SidebarMain` (`client/src/components/sidebar/sidebar-main.tsx`): navegação colapsável com cor `#2D113F`  
+   - **Legados (não utilizar)**: `AppHeader`, `HeaderDashboard`, `AppLayout`, `MainLayout`  
+   - **Cores oficiais**:  
+     - Primária: `#2D113F`  
+     - Secundária: `#C52339`  
+   - **Hierarquia**:  
+     ```
+     AppShell
+     ├── Sidebar (SidebarMain)
+     ├── Header
+     └── Main Content
+     ```  
+   - **Padrão para novas páginas**:  
+     ```tsx
+     import React from "react";
+     import AppShell from "@/components/layout/app-shell";
+     export default function NovaPagina() {
+       return (
+         <AppShell>
+           <div className="flex-1">
+             <h2 className="text-2xl font-bold mb-6">Título da Página</h2>
+             {/* Conteúdo da página aqui */}
+           </div>
+         </AppShell>
+       );
+     }
+     ```  
+   - **Regras**:  
+     - Nunca modifique estrutura do `AppShell`  
+     - Mantenha cores e lógica de collapse da sidebar inalterados  
+     - Use sempre o `Header` e `SidebarMain` nos novos componentes  
+
+6. **Baixar assets de logo**  
+   - Faça download dos seguintes arquivos e coloque em `public/assets/images/`:  
+     - Logo principal: `https://sq360.com.br/logo-hubb-novo/logo_hubb_assisit.png`  
+     - Ícone da aplicação: `https://sq360.com.br/logo-hubb-novo/hubb_pet_icon.png`
+
+7. **Configurar o `.replit`**  
+   ```ini
+   run = "uvicorn backend.app.main:app --host=0.0.0.0 --port=3000 --reload"
+   language = "python"
