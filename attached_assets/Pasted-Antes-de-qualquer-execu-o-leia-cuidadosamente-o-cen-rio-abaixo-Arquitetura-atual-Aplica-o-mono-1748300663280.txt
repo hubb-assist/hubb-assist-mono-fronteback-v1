@@ -1,0 +1,71 @@
+Antes de qualquer execução, leia cuidadosamente o cenário abaixo:
+
+Arquitetura atual
+
+Aplicação monolítica: front-end e back-end compilados e servidos pela mesma URL.
+
+Não há microsserviço separado: embora exista uma API REST, ela não está isolada em um domínio distinto.
+
+Problema de CORS / Allowed Hosts
+Ao tentar carregar o front-end, surge o seguinte erro de request bloqueada:
+
+pgsql
+Copiar
+Editar
+Blocked request. This host ("08fce044-cfda-4863-971b-b69d26c7a26d-00-19b59kd3rb6hz.spock.replit.dev") is not allowed.
+To allow this host, add "08fce044-cfda-4863-971b-b69d26c7a26d-00-19b59kd3rb6hz.spock.replit.dev" to `server.allowedHosts` in vite.config.js.
+Solução proposta:
+
+No arquivo vite.config.js, localize a seção server.allowedHosts e acrescente o host acima.
+
+Reinicie o servidor de desenvolvimento para aplicar a configuração.
+
+Comportamento observado após deploy
+Em vez de exibir a interface, o navegador recebe apenas o payload JSON da API:
+
+json
+Copiar
+Editar
+{
+  "message":"🏥 HUBB Assist SaaS API",
+  "version":"1.0.0",
+  "status":"online",
+  "environment":"production",
+  "docs_url":"/docs",
+  "redoc_url":"/redoc",
+  "frontend_url":"https://hubb-assist-mono-fronteback-v1.replit.app:3000/"
+}
+Isso indica que o servidor de back-end está servindo a API no lugar dos arquivos estáticos do front-end.
+
+Recomendações técnicas
+
+Isolamento de domínios: configure o front-end para ser servido em uma URL distinta (por exemplo, https://app.seu-dominio.com) e a API em https://api.seu-dominio.com.
+
+Proxy Vite: se mantiver ambos no mesmo host, ajuste em vite.config.js:
+
+js
+Copiar
+Editar
+server: {
+  proxy: {
+    '/api': {
+      target: 'http://localhost:5000',
+      changeOrigin: true,
+      secure: false
+    }
+  },
+  allowedHosts: [
+    'localhost',
+    '08fce044-cfda-4863-971b-b69d26c7a26d-00-19b59kd3rb6hz.spock.replit.dev'
+  ]
+}
+Rotas estáticas: na configuração do servidor (Express, Fastify, etc.), garanta que o middleware de arquivos estáticos seja carregado antes de qualquer rota de API:
+
+js
+Copiar
+Editar
+app.use(express.static(path.resolve(__dirname, 'dist')));
+app.use('/api', apiRouter);
+Validação pós-deploy: confirme via rede de desenvolvedor no navegador (DevTools > Network) que as solicitações ao front-end retornam arquivos .js, .css e não JSON da API.
+
+Com essas alterações, o front-end deverá carregar corretamente e o erro de host bloqueado será resolvido.

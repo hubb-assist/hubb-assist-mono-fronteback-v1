@@ -7,7 +7,13 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 3000,
     strictPort: true,
-    allowedHosts: 'all',
+    allowedHosts: [
+      'localhost',
+      '08fce044-cfda-4863-971b-b69d26c7a26d-00-19b59kd3rb6hz.spock.replit.dev',
+      'hubb-assist-mono-fronteback-v1.replit.app',
+      '.replit.app',
+      '.spock.replit.dev'
+    ],
     hmr: {
       clientPort: 443
     },
