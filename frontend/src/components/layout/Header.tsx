@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { Menu, Bell, User } from 'lucide-react'
 
 interface HeaderProps {
   onToggleSidebar: () => void
@@ -7,49 +7,37 @@ interface HeaderProps {
 }
 
 const Header = ({ onToggleSidebar, collapsed, isMobile }: HeaderProps) => {
-  const [currentUser] = useState({
-    name: 'Dr. João Silva',
-    role: 'Administrador',
-    avatar: '/assets/images/hubb_pet_icon.png'
-  })
-
   return (
-    <header className="header">
-      <div className="header-left">
-        <button 
+    <header className="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-6">
+      <div className="flex items-center gap-4">
+        <button
           onClick={onToggleSidebar}
-          className="toggle-btn"
-          aria-label={isMobile ? 'Abrir menu' : collapsed ? 'Expandir sidebar' : 'Colapsar sidebar'}
+          className="p-2 hover:bg-gray-100 rounded-md transition-colors"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
+          <Menu className="w-5 h-5 text-gray-600" />
         </button>
         
-        <div className="header-title">
-          <h1>Dashboard</h1>
-          <p>Visão geral do sistema HUBB Assist</p>
+        <div>
+          <h1 className="text-xl font-semibold text-gray-900">Dashboard</h1>
+          <p className="text-sm text-gray-600">Visão geral do sistema HUBB Assist</p>
         </div>
       </div>
 
-      <div className="header-actions">
-        <div className="user-info">
+      <div className="flex items-center gap-4">
+        <button className="p-2 hover:bg-gray-100 rounded-md transition-colors relative">
+          <Bell className="w-5 h-5 text-gray-600" />
+          <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+        </button>
+        
+        <div className="flex items-center gap-3">
           <img 
-            src={currentUser.avatar} 
+            src="/assets/images/hubb_pet_icon.png" 
             alt="Avatar" 
-            className="user-avatar"
-            style={{
-              width: '40px',
-              height: '40px',
-              borderRadius: '50%',
-              objectFit: 'cover'
-            }}
+            className="w-8 h-8 rounded-full"
           />
-          <div className="user-details">
-            <span className="user-name">{currentUser.name}</span>
-            <span className="user-role">{currentUser.role}</span>
+          <div className="hidden sm:block">
+            <div className="text-sm font-medium text-gray-900">Dr. João Silva</div>
+            <div className="text-xs text-gray-600">Administrador</div>
           </div>
         </div>
       </div>

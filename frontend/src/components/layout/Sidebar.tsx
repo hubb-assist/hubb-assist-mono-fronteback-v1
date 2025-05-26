@@ -1,3 +1,6 @@
+import { Building, Users, Settings, BarChart, Eye, UserCheck, Brain, Mic } from 'lucide-react'
+import { cn } from '../../lib/utils'
+
 interface SidebarProps {
   collapsed: boolean
   mobileOpen: boolean
@@ -6,114 +9,94 @@ interface SidebarProps {
 }
 
 const Sidebar = ({ collapsed, mobileOpen, userType, onClose }: SidebarProps) => {
-  const getMenuItems = () => {
-    switch (userType) {
-      case 'ADMIN':
-        return [
-          { icon: '📊', text: 'Dashboard', href: '/', active: true },
-          { icon: '🏢', text: 'Tenants', href: '/tenants' },
-          { icon: '👥', text: 'Usuários', href: '/users' },
-          { icon: '⚙️', text: 'Configurações', href: '/settings' },
-          { icon: '📈', text: 'Analytics', href: '/analytics' }
-        ]
-      case 'DONO_CLINICA':
-        return [
-          { icon: '📊', text: 'Dashboard', href: '/', active: true },
-          { icon: '👨‍⚕️', text: 'Colaboradores', href: '/colaboradores' },
-          { icon: '🦷', text: 'Pacientes', href: '/pacientes' },
-          { icon: '💰', text: 'Financeiro', href: '/financeiro' },
-          { icon: '📋', text: 'Relatórios', href: '/relatorios' }
-        ]
-      case 'COLABORADOR':
-        return [
-          { icon: '📅', text: 'Agenda', href: '/', active: true },
-          { icon: '🦷', text: 'Pacientes', href: '/pacientes' },
-          { icon: '📋', text: 'Prontuários', href: '/prontuarios' },
-          { icon: '🔧', text: 'Procedimentos', href: '/procedimentos' }
-        ]
-      case 'PACIENTE':
-        return [
-          { icon: '📅', text: 'Agendamentos', href: '/', active: true },
-          { icon: '📋', text: 'Histórico', href: '/historico' },
-          { icon: '🧾', text: 'Exames', href: '/exames' },
-          { icon: '💳', text: 'Pagamentos', href: '/pagamentos' }
-        ]
-      default:
-        return []
-    }
-  }
+  const menuItems = [
+    { icon: BarChart, label: 'Dashboard', href: '#', active: true },
+    { icon: Building, label: 'Tenants', href: '#' },
+    { icon: Users, label: 'Usuários', href: '#' },
+    { icon: Settings, label: 'Configurações', href: '#' },
+  ]
 
-  const getHubbModules = () => {
-    if (userType === 'PACIENTE') return []
-    
-    return [
-      { icon: '🧠', text: 'HUBB Core', href: '/modules/core' },
-      { icon: '👤', text: 'HUBB HOF', href: '/modules/hof' },
-      { icon: '👁️', text: 'HUBB Vision', href: '/modules/vision' },
-      { icon: '👥', text: 'HUBB RH', href: '/modules/rh' },
-      { icon: '🤖', text: 'HUBB IA', href: '/modules/ia' }
-    ]
-  }
-
-  const menuItems = getMenuItems()
-  const hubbModules = getHubbModules()
+  const hubbModules = [
+    { icon: BarChart, label: 'HUBB Core', href: '#', color: 'bg-blue-500' },
+    { icon: UserCheck, label: 'HUBB HOF', href: '#', color: 'bg-green-500' },
+    { icon: Eye, label: 'HUBB Vision', href: '#', color: 'bg-purple-500' },
+    { icon: Users, label: 'HUBB RH', href: '#', color: 'bg-orange-500' },
+    { icon: Brain, label: 'HUBB IA', href: '#', color: 'bg-pink-500' },
+  ]
 
   return (
     <>
-      {/* Overlay para mobile */}
+      {/* Mobile Overlay */}
       {mobileOpen && (
-        <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
-          onClick={onClose}
-        />
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden" onClick={onClose} />
       )}
       
-      <aside className={`sidebar ${collapsed ? 'collapsed' : ''} ${mobileOpen ? 'mobile-open' : ''}`}>
+      <aside className={cn(
+        "fixed top-0 left-0 h-full bg-[#2D113F] text-white transition-all duration-300 z-50",
+        collapsed ? "w-16" : "w-64",
+        mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+      )}>
         {/* Logo */}
-        <div className="sidebar-logo">
-          <img 
-            src="/assets/images/logo_hubb_assisit.png" 
-            alt="HUBB Assist" 
-            className="logo-image"
-          />
-          {!collapsed && <h2>HUBB Assist</h2>}
+        <div className="flex items-center justify-center h-16 border-b border-white/10">
+          {!collapsed && (
+            <img 
+              src="/assets/images/logo_hubb_assisit.png" 
+              alt="HUBB Assist" 
+              className="h-8 object-contain"
+            />
+          )}
+          {collapsed && (
+            <div className="w-8 h-8 bg-[#C52339] rounded flex items-center justify-center">
+              <span className="text-white font-bold text-sm">H</span>
+            </div>
+          )}
         </div>
 
-        {/* Navegação Principal */}
-        <nav className="sidebar-nav">
-          <div className="nav-section">
-            {menuItems.map((item, index) => (
+        <nav className="mt-8">
+          {/* Main Menu */}
+          <div className="px-4">
+            {!collapsed && (
+              <div className="text-xs uppercase text-white/60 font-semibold mb-3 tracking-wider">
+                Menu Principal
+              </div>
+            )}
+            
+            {menuItems.map((item) => (
               <a
-                key={index}
+                key={item.label}
                 href={item.href}
-                className={`nav-item ${item.active ? 'active' : ''}`}
+                className={cn(
+                  "flex items-center px-3 py-2 mb-1 rounded-md transition-colors",
+                  item.active 
+                    ? "bg-[#C52339] text-white" 
+                    : "text-white/80 hover:bg-white/10 hover:text-white"
+                )}
               >
-                <span className="nav-item-icon">{item.icon}</span>
-                {!collapsed && <span className="nav-item-text">{item.text}</span>}
+                <item.icon className="w-5 h-5" />
+                {!collapsed && <span className="ml-3">{item.label}</span>}
               </a>
             ))}
           </div>
 
-          {/* Módulos HUBB */}
-          {hubbModules.length > 0 && (
-            <div className="nav-section">
-              {!collapsed && (
-                <div className="nav-section-title">
-                  Módulos HUBB
-                </div>
-              )}
-              {hubbModules.map((module, index) => (
-                <a
-                  key={index}
-                  href={module.href}
-                  className="nav-item"
-                >
-                  <span className="nav-item-icon">{module.icon}</span>
-                  {!collapsed && <span className="nav-item-text">{module.text}</span>}
-                </a>
-              ))}
-            </div>
-          )}
+          {/* HUBB Modules */}
+          <div className="px-4 mt-8">
+            {!collapsed && (
+              <div className="text-xs uppercase text-white/60 font-semibold mb-3 tracking-wider">
+                Módulos HUBB
+              </div>
+            )}
+            
+            {hubbModules.map((module) => (
+              <a
+                key={module.label}
+                href={module.href}
+                className="flex items-center px-3 py-2 mb-1 rounded-md text-white/80 hover:bg-white/10 hover:text-white transition-colors"
+              >
+                <module.icon className="w-5 h-5" />
+                {!collapsed && <span className="ml-3">{module.label}</span>}
+              </a>
+            ))}
+          </div>
         </nav>
       </aside>
     </>
