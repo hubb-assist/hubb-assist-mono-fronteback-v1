@@ -464,7 +464,7 @@
         <div class="main-content">
             <header class="header">
                 <div style="display: flex; align-items: center; gap: 1rem;">
-                    <button onclick="toggleSidebar()" class="toggle-btn" title="Colapsar/Expandir menu">
+                    <button id="toggleSidebar" class="toggle-btn" title="Colapsar/Expandir menu">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <line x1="3" y1="6" x2="21" y2="6"></line>
                             <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -628,48 +628,52 @@
         }
 
         // Toggle sidebar functionality
-        const toggleBtn = document.getElementById('toggleSidebar');
-        const sidebar = document.getElementById('sidebar');
-        const mainContent = document.querySelector('.main-content');
-        const mobileOverlay = document.getElementById('mobileOverlay');
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleBtn = document.getElementById('toggleSidebar');
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.querySelector('.main-content');
+            const mobileOverlay = document.getElementById('mobileOverlay');
 
-        function isMobile() {
-            return window.innerWidth <= 768;
-        }
-
-        toggleBtn.addEventListener('click', () => {
-            if (isMobile()) {
-                // Mobile behavior - show/hide sidebar with overlay
-                sidebar.classList.toggle('mobile-open');
-                mobileOverlay.classList.toggle('active');
-            } else {
-                // Desktop behavior - collapse/expand sidebar
-                sidebar.classList.toggle('collapsed');
-                mainContent.classList.toggle('collapsed');
+            function isMobile() {
+                return window.innerWidth <= 768;
             }
-        });
 
-        // Close sidebar when clicking overlay (mobile)
-        mobileOverlay.addEventListener('click', () => {
-            sidebar.classList.remove('mobile-open');
-            mobileOverlay.classList.remove('active');
-        });
-
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            if (!isMobile()) {
-                // Reset mobile classes when switching to desktop
-                sidebar.classList.remove('mobile-open');
-                mobileOverlay.classList.remove('active');
-            } else {
-                // Reset desktop classes when switching to mobile
-                sidebar.classList.remove('collapsed');
-                mainContent.classList.remove('collapsed');
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', () => {
+                    if (isMobile()) {
+                        // Mobile behavior - show/hide sidebar with overlay
+                        sidebar.classList.toggle('mobile-open');
+                        mobileOverlay.classList.toggle('active');
+                    } else {
+                        // Desktop behavior - collapse/expand sidebar
+                        sidebar.classList.toggle('collapsed');
+                        mainContent.classList.toggle('collapsed');
+                    }
+                });
             }
-        });
 
-        // Initialize based on screen size
-        window.addEventListener('DOMContentLoaded', () => {
+            // Close sidebar when clicking overlay (mobile)
+            if (mobileOverlay) {
+                mobileOverlay.addEventListener('click', () => {
+                    sidebar.classList.remove('mobile-open');
+                    mobileOverlay.classList.remove('active');
+                });
+            }
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (!isMobile()) {
+                    // Reset mobile classes when switching to desktop
+                    sidebar.classList.remove('mobile-open');
+                    mobileOverlay.classList.remove('active');
+                } else {
+                    // Reset desktop classes when switching to mobile
+                    sidebar.classList.remove('collapsed');
+                    mainContent.classList.remove('collapsed');
+                }
+            });
+
+            // Initialize based on screen size
             if (isMobile()) {
                 sidebar.classList.remove('collapsed');
                 mainContent.classList.remove('collapsed');
