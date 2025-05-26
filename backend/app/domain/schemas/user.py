@@ -5,7 +5,7 @@ Schemas Pydantic para usuários
 
 from datetime import datetime
 from typing import Optional, List
-from pydantic import BaseModel, EmailStr, Field, validator
+from pydantic import BaseModel, EmailStr, Field, field_validator
 
 from app.domain.models.user import UserRole
 
@@ -26,7 +26,8 @@ class UserCreate(UserBase):
     cpf: Optional[str] = Field(None, max_length=14)
     professional_id: Optional[str] = Field(None, max_length=50)
     
-    @validator('password')
+    @field_validator('password')
+    @classmethod
     def validate_password(cls, v):
         """Validar força da senha"""
         if len(v) < 6:
@@ -56,7 +57,8 @@ class UserPasswordUpdate(BaseModel):
     """Schema para atualização de senha"""
     new_password: str = Field(..., min_length=6)
     
-    @validator('new_password')
+    @field_validator('new_password')
+    @classmethod
     def validate_password(cls, v):
         """Validar força da senha"""
         if len(v) < 6:

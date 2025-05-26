@@ -50,7 +50,7 @@ class Base(DeclarativeBase):
 
 
 # Dependency para obter sessão do banco
-async def get_db() -> AsyncSession:
+async def get_db():
     """
     Dependency para obter sessão do banco de dados
     """

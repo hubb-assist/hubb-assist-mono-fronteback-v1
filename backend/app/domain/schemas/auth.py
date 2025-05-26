@@ -23,7 +23,8 @@ class UserRegister(BaseModel):
     phone: Optional[str] = Field(None, max_length=20)
     tenant_slug: str = Field(..., min_length=2, max_length=100)
     
-    @validator('password')
+    @field_validator('password')
+    @classmethod
     def validate_password(cls, v):
         """Validar força da senha"""
         if len(v) < 6:
@@ -66,7 +67,8 @@ class PasswordReset(BaseModel):
     token: str
     new_password: str = Field(..., min_length=6)
     
-    @validator('new_password')
+    @field_validator('new_password')
+    @classmethod
     def validate_password(cls, v):
         """Validar força da senha"""
         if len(v) < 6:
@@ -92,7 +94,8 @@ class ChangePassword(BaseModel):
     current_password: str
     new_password: str = Field(..., min_length=6)
     
-    @validator('new_password')
+    @field_validator('new_password')
+    @classmethod
     def validate_password(cls, v):
         """Validar força da senha"""
         if len(v) < 6:
