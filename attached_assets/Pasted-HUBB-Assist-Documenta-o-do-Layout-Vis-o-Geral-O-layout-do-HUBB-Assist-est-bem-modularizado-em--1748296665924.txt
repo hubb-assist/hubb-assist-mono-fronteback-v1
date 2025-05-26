@@ -1,0 +1,146 @@
+HUBB Assist - Documentação do Layout
+Visão Geral
+O layout do HUBB Assist está bem modularizado em componentes, seguindo uma arquitetura moderna e responsiva com a identidade visual oficial da marca HUBB.
+
+Estrutura Modular de Componentes
+1. AppShell (components/layout/app-shell.tsx)
+Função: Container principal que gerencia o layout geral
+Responsabilidades:
+Controla o estado do sidebar (colapsado/expandido, mobile/desktop)
+Coordena Header + Sidebar + Main content
+Gerencia responsividade entre desktop e mobile
+Aplica o tema e cores globais
+2. Header (components/layout/header.tsx)
+Função: Barra superior com navegação e informações contextuais
+Elementos:
+Título e subtítulo da página atual
+Botão para menu mobile (hamburger)
+Área para ações do usuário
+Breadcrumbs (quando necessário)
+3. Sidebar (components/layout/sidebar-main.tsx)
+Função: Menu lateral principal de navegação
+Elementos:
+Logo HUBB Assist (imagem PNG oficial)
+Menu principal (Dashboard, Tenants, Usuários)
+Módulos HUBB (Core, HOF, Vision, RH, IA)
+Sistema colapsável e responsivo
+Estados ativos/hover com cor secundária
+4. Main Content
+Função: Área principal de conteúdo
+Características:
+As páginas como Dashboard ficam dentro do AppShell
+Cada página é um componente separado
+Padding e espaçamento consistentes
+Sistema de grid responsivo
+Identidade Visual
+Cores Oficiais HUBB
+Primária: #2D113F (Roxo escuro)
+Secundária: #C52339 (Vermelho)
+Aplicação: Usadas consistentemente em botões, ícones, hover states e gráficos
+Logo
+Formato: PNG oficial do HUBB Assist
+Localização: client/public/assets/images/logo_hubb_assisit.png
+Comportamento: Visível apenas quando sidebar expandido
+Vantagens da Modularização
+✅ Reutilização
+Header e Sidebar são usados em todas as páginas
+Componentes podem ser facilmente importados
+Reduz duplicação de código
+✅ Manutenção
+Mudanças no layout são aplicadas globalmente
+Atualizações centralizadas
+Fácil debugging e modificações
+✅ Responsividade
+Lógica de responsividade centralizada no AppShell
+Comportamento consistente em diferentes dispositivos
+Menu mobile automático
+✅ Identidade Visual Consistente
+Cores oficiais HUBB aplicadas uniformemente
+Padrões visuais mantidos em toda aplicação
+Experiência do usuário coerente
+Flexibilidade da Estrutura
+A arquitetura modular permite facilmente:
+
+Adicionar Novas Páginas: Mantendo o layout padrão automaticamente
+Customizar Header/Sidebar: Por página específica quando necessário
+Manter Identidade Visual: Cores e padrões aplicados consistentemente
+Escalar a Aplicação: Novos módulos e funcionalidades integram naturalmente
+Tecnologias Utilizadas
+React: Base dos componentes
+Tailwind CSS: Estilização e responsividade
+Wouter: Roteamento
+Lucide React: Ícones consistentes
+ShadCN UI: Componentes base
+Estado Global do Layout
+O AppShell mantém estados importantes:
+
+collapsed: Controla se sidebar está colapsado
+mobileOpen: Controla abertura do menu mobile
+Responsividade automática baseada no tamanho da tela
+Esta estrutura modular garante um desenvolvimento eficiente e uma experiência de usuário consistente em toda a plataforma HUBB Assist.
+
+Arquitetura Multi-Layout por Tipo de Usuário
+O sistema HUBB Assist implementa 4 layouts distintos baseados no tipo de usuário, cada um com menus e funcionalidades específicas, mantendo o mesmo padrão visual e estrutura modular:
+
+1. LAYOUT_ADMIN
+Usuário: Administrador do sistema
+Funcionalidades:
+Gestão completa de tenants
+Configuração de módulos HUBB
+Analytics e relatórios globais
+Gerenciamento de usuários do sistema
+Configurações avançadas
+Menu Específico: Dashboard administrativo, Tenants, Módulos, Usuários, Configurações
+2. LAYOUT_DONO_CLINICA
+Usuário: Proprietário/Gestor da clínica
+Funcionalidades:
+Dashboard da clínica
+Gestão de colaboradores
+Relatórios financeiros
+Configurações da clínica
+Módulos HUBB contratados
+Menu Específico: Dashboard, Colaboradores, Financeiro, Pacientes, Relatórios, Configurações
+3. LAYOUT_COLABORADOR
+Usuário: Funcionário da clínica (dentista, recepcionista, etc.)
+Funcionalidades:
+Agenda de atendimentos
+Prontuários de pacientes
+Procedimentos realizados
+Comunicação interna
+Menu Específico: Agenda, Pacientes, Prontuários, Procedimentos, Comunicação
+4. LAYOUT_PACIENTE
+Usuário: Paciente da clínica
+Funcionalidades:
+Portal do paciente
+Agendamentos online
+Histórico de consultas
+Resultados de exames
+Pagamentos e financeiro
+Menu Específico: Meus Agendamentos, Histórico, Exames, Pagamentos, Perfil
+Implementação Técnica dos Multi-Layouts
+Estrutura Comum
+Todos os layouts mantêm a estrutura modular base:
+
+AppShell: Container principal adaptável
+Header: Personalizado por tipo de usuário
+Sidebar: Menu específico para cada perfil
+Main Content: Conteúdo contextual
+Roteamento Baseado em Roles
+Sistema de autenticação identifica o tipo de usuário
+Redirecionamento automático para o layout apropriado
+Proteção de rotas baseada em permissões
+Experiência personalizada desde o login
+Vantagens da Abordagem Multi-Layout
+Experiência Personalizada: Cada usuário vê apenas o que precisa
+Segurança: Acesso controlado por tipo de usuário
+Usabilidade: Interface otimizada para cada perfil
+Manutenibilidade: Componentes reutilizáveis entre layouts
+Escalabilidade: Fácil adição de novos tipos de usuário
+Identidade Visual Unificada
+Independente do layout, todos mantêm:
+
+Cores oficiais HUBB (#2D113F e #C52339)
+Logo e branding consistentes
+Padrões de componentes UI
+Experiência visual coerente
+Esta arquitetura garante que cada tipo de usuário tenha acesso às funcionalidades adequadas ao seu papel, mantendo a consistência visual e a facilidade de manutenção do sistema.
