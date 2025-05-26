@@ -18,11 +18,11 @@ args = "HUBB Assist Backend"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "React Frontend"
+args = "HUBB Backend"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "HUBB Backend API"
+args = "HUBB Frontend"
 
 [[workflows.workflow]]
 name = "HUBB Assist Backend"
@@ -34,22 +34,22 @@ args = "cd backend && python simple_main.py"
 waitForPort = 5000
 
 [[workflows.workflow]]
-name = "React Frontend"
-author = "agent"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd frontend && npm run dev"
-waitForPort = 5000
-
-[[workflows.workflow]]
-name = "HUBB Backend API"
+name = "HUBB Backend"
 author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "cd backend && python simple_main.py"
-waitForPort = 8000
+waitForPort = 5000
+
+[[workflows.workflow]]
+name = "HUBB Frontend"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd frontend && npm run dev"
+waitForPort = 3000
 
 [deployment]
 run = ["sh", "-c", "cd backend && python simple_main.py"]
