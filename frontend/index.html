@@ -1,13 +1,462 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🏥 HUBB Assist SaaS</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+    <style>
+        /* HUBB Assist - Cores Oficiais */
+        :root {
+            --hubb-primary: #2D113F;
+            --hubb-secondary: #C52339;
+            --hubb-bg-light: #f8fafc;
+            --hubb-text-primary: #1a202c;
+            --hubb-text-secondary: #718096;
+            --hubb-border: #e2e8f0;
+            --hubb-hover: #f1f5f9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: var(--hubb-bg-light);
+            color: var(--hubb-text-primary);
+            min-height: 100vh;
+        }
+
+        .app-shell {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: var(--hubb-primary);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar-logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .sidebar-logo h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: var(--hubb-secondary);
+            color: white;
+            border-right: 3px solid white;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: white;
+            border-bottom: 1px solid var(--hubb-border);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-title h1 {
+            color: var(--hubb-primary);
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .header-title p {
+            color: var(--hubb-text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .page-content {
+            padding: 2rem;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .dashboard-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--hubb-border);
+            transition: all 0.2s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--hubb-primary);
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--hubb-text-primary);
+            margin: 0;
+        }
+
+        .card-description {
+            color: var(--hubb-text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-primary {
+            background: var(--hubb-primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background: #3f1a55;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--hubb-secondary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #d63850;
+            transform: translateY(-1px);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .status-online {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .nav-section-title {
+            padding: 0.5rem 1.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.6);
+            letter-spacing: 0.05em;
+            margin: 1rem 0 0.5rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-shell">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <img src="/assets/images/logo_hubb_assisit.png" alt="HUBB Assist">
+                <h2>HUBB Assist</h2>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active">
+                    <span>📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span>🏢</span>
+                    <span>Tenants</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span>👥</span>
+                    <span>Usuários</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span>⚙️</span>
+                    <span>Configurações</span>
+                </a>
+                
+                <div class="nav-section-title">Módulos HUBB</div>
+                <a href="#" class="nav-item">
+                    <span>🧠</span>
+                    <span>HUBB Core</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span>👤</span>
+                    <span>HUBB HOF</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span>👁️</span>
+                    <span>HUBB Vision</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span>👥</span>
+                    <span>HUBB RH</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span>🤖</span>
+                    <span>HUBB IA</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <header class="header">
+                <div class="header-title">
+                    <h1>Dashboard</h1>
+                    <p>Visão geral do sistema HUBB Assist</p>
+                </div>
+                <div class="user-info">
+                    <img src="/assets/images/hubb_pet_icon.png" alt="Avatar" class="user-avatar">
+                    <div>
+                        <div style="font-weight: 600;">Dr. João Silva</div>
+                        <div style="font-size: 0.75rem; color: var(--hubb-text-secondary);">Administrador</div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="page-content">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-icon">📚</div>
+                            <h3 class="card-title">Documentação da API</h3>
+                        </div>
+                        <p class="card-description">
+                            Explore todos os endpoints disponíveis na documentação interativa do Swagger.
+                        </p>
+                        <a href="http://localhost:5000/docs" target="_blank" class="btn-primary">
+                            Abrir Swagger UI
+                        </a>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-icon">📖</div>
+                            <h3 class="card-title">Documentação ReDoc</h3>
+                        </div>
+                        <p class="card-description">
+                            Versão alternativa da documentação com interface diferente.
+                        </p>
+                        <a href="http://localhost:5000/redoc" target="_blank" class="btn-primary">
+                            Abrir ReDoc
+                        </a>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-icon">🔐</div>
+                            <h3 class="card-title">Teste de Autenticação</h3>
+                        </div>
+                        <p class="card-description">
+                            Teste o sistema de autenticação JWT com credenciais de demonstração.
+                        </p>
+                        <button onclick="testLogin()" class="btn-secondary">
+                            Testar Login
+                        </button>
+                        <div style="margin-top: 1rem; font-size: 0.875rem; color: var(--hubb-text-secondary);">
+                            <strong>Credenciais:</strong><br>
+                            Email: admin@clinica.com<br>
+                            Senha: 123456
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-icon">📊</div>
+                            <h3 class="card-title">Status da API</h3>
+                        </div>
+                        <p class="card-description">
+                            Informações sobre o status atual da API e conexões.
+                        </p>
+                        <div id="api-status">
+                            <span class="status-badge status-online">🟢 Online</span>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-icon">🧠</div>
+                            <h3 class="card-title">Módulos HUBB</h3>
+                        </div>
+                        <p class="card-description">
+                            Acesse os diferentes módulos da plataforma HUBB Assist.
+                        </p>
+                        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                            <button class="btn-primary">HUBB Core</button>
+                            <button class="btn-primary">HUBB HOF</button>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-icon">⚙️</div>
+                            <h3 class="card-title">Configurações</h3>
+                        </div>
+                        <p class="card-description">
+                            Gerencie configurações do sistema, usuários e tenants.
+                        </p>
+                        <button class="btn-primary">Configurar</button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        async function testLogin() {
+            try {
+                const formData = new FormData();
+                formData.append('username', 'admin@clinica.com');
+                formData.append('password', '123456');
+
+                const response = await fetch('http://localhost:5000/auth/login', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    alert(`Login realizado com sucesso! Token: ${data.access_token.substring(0, 20)}...`);
+                } else {
+                    alert(`Erro no login: ${data.detail}`);
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao conectar com a API');
+            }
+        }
+
+        // Verificar status da API
+        async function checkAPIStatus() {
+            try {
+                const response = await fetch('http://localhost:5000/health');
+                const data = await response.json();
+                
+                document.getElementById('api-status').innerHTML = `
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Status:</span>
+                            <span class="status-badge status-online">🟢 ${data.status}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Ambiente:</span>
+                            <span>${data.environment}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Database:</span>
+                            <span>${data.database}</span>
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                document.getElementById('api-status').innerHTML = `
+                    <span class="status-badge" style="background: #f8d7da; color: #721c24;">🔴 Offline</span>
+                `;
+            }
+        }
+
+        // Carregar status na inicialização
+        checkAPIStatus();
+    </script>
+</body>
 </html>
