@@ -1,0 +1,155 @@
+Perfeito! Vamos seguir o Método 1 – dashboards totalmente separados. Aqui vai uma proposta de como organizar tudo, do roteamento ao layout e componentes, para cada role:
+
+1. Estrutura de pastas
+text
+Copiar
+Editar
+src/
+├─ layouts/
+│  ├─ AdminLayout.tsx
+│  ├─ ClinicOwnerLayout.tsx
+│  ├─ CollaboratorLayout.tsx
+│  └─ PatientLayout.tsx
+├─ pages/
+│  ├─ admin/
+│  │  └─ Dashboard.tsx
+│  ├─ owner/
+│  │  └─ Dashboard.tsx
+│  ├─ collaborator/
+│  │  ├─ level1/
+│  │  │  └─ Dashboard.tsx
+│  │  ├─ level2/
+│  │  │  └─ Dashboard.tsx
+│  │  └─ level3/
+│  │     └─ Dashboard.tsx
+│  └─ patient/
+│     └─ Dashboard.tsx
+├─ components/
+│  ├─ sidebar/
+│  │  ├─ AdminSidebar.tsx
+│  │  ├─ OwnerSidebar.tsx
+│  │  ├─ CollaboratorSidebar.tsx
+│  │  └─ PatientSidebar.tsx
+│  └─ header/
+│     └─ Header.tsx
+└─ App.tsx
+2. Roteamento (exemplo com Wouter)
+No seu App.tsx, defina rotas hierárquicas:
+
+tsx
+Copiar
+Editar
+import { Route, Switch } from "wouter";
+import AdminLayout from "./layouts/AdminLayout";
+import ClinicOwnerLayout from "./layouts/ClinicOwnerLayout";
+import CollaboratorLayout from "./layouts/CollaboratorLayout";
+import PatientLayout from "./layouts/PatientLayout";
+
+function App() {
+  return (
+    <Switch>
+      {/* Admin */}
+      <Route path="/admin">
+        <AdminLayout />
+      </Route>
+
+      {/* Dono de Clínica */}
+      <Route path="/owner">
+        <ClinicOwnerLayout />
+      </Route>
+
+      {/* Colaboradores (níveis 1,2,3) */}
+      <Route path="/collab/level1">
+        <CollaboratorLayout level="n1" />
+      </Route>
+      <Route path="/collab/level2">
+        <CollaboratorLayout level="n2" />
+      </Route>
+      <Route path="/collab/level3">
+        <CollaboratorLayout level="n3" />
+      </Route>
+
+      {/* Paciente */}
+      <Route path="/patient">
+        <PatientLayout />
+      </Route>
+    </Switch>
+  );
+}
+export default App;
+Cada *Layout carrega seu próprio sidebar, header e vai renderizar a página de dashboard:
+
+tsx
+Copiar
+Editar
+// layouts/AdminLayout.tsx
+import { Outlet } from "react-router-dom";
+import AdminSidebar from "../components/sidebar/AdminSidebar";
+import Header from "../components/header/Header";
+
+export default function AdminLayout() {
+  return (
+    <div className="flex h-screen">
+      <AdminSidebar />
+      <div className="flex-1 flex flex-col">
+        <Header />
+        <main className="p-6">
+          <Outlet />           {/* renderiza pages/admin/Dashboard.tsx */}
+        </main>
+      </div>
+    </div>
+  );
+}
+3. Dashboards: o que incluir em cada
+Role	Conteúdo sugerido
+ADMIN	• Visão global de tenants (gráfico de crescimento)
+• Controle de usuários do sistema
+• Logs e métricas SaaS
+DONO_DE_CLÍNICA	• Overview financeiro da clínica (faturamento, custos)
+• Gestão de usuários da clínica
+• Status de módulos ativos
+COLAB_N1	• Lista de pacientes atribuídos
+• Agenda do dia
+• Atalhos para cadastro de novos pacientes
+COLAB_N2	• Todas as N1, mais:
+• Controle de insumos e estoque
+• Relatórios simplificados de atendimentos
+COLAB_N3	• Todas as N2, mais:
+• Permissões de edição de orçamentos
+• Acesso a relatórios financeiros restritos
+PACIENTE	• Meus dados cadastrais
+• Minhas consultas agendadas
+• Botão para solicitar novo agendamento
+
+Dentro de cada pages/*/Dashboard.tsx você usaria componentes do ShadCN UI e Tailwind para montar um grid de cards, ex.:
+
+tsx
+Copiar
+Editar
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+export default function AdminDashboard() {
+  return (
+    <div className="grid grid-cols-3 gap-4">
+      <Card>
+        <CardHeader><CardTitle>Tenants Ativos</CardTitle></CardHeader>
+        <CardContent>{/* gráfico ou número total */}</CardContent>
+      </Card>
+      <Card>
+        <CardHeader><CardTitle>Novos Usuários</CardTitle></CardHeader>
+        <CardContent>{/* tabela ou estatística */}</CardContent>
+      </Card>
+      {/* …outros cards */}
+    </div>
+  );
+}
+4. Proteção de rotas
+Mantém no backend o require_roles(...) para cada rota (já definido antes). No frontend, seu PrivateRoute pode redirecionar se o usuário não tiver acesso àquela área:
+
+tsx
+Copiar
+Editar
+// exemplo simplificado
+<Route path="/admin/*" element={<PrivateRoute allowed={[Role.ADMIN]} />}>
+  <Route path="" element={<AdminLayout />} />
+</Route>

@@ -1,0 +1,163 @@
+1. Scaffold inicial dos componentes
+Criar diretórios e arquivos vazios
+
+bash
+Copiar
+Editar
+mkdir -p src/components/layout
+touch src/components/layout/{AppShell,Header,Sidebar}.tsx
+mkdir -p src/pages/{admin,owner,collab/patient}
+touch src/pages/{admin/ Dashboard.tsx,owner/Dashboard.tsx,collab/level1/Dashboard.tsx,collab/level2/Dashboard.tsx,collab/level3/Dashboard.tsx,patient/Dashboard.tsx}
+Definir exports “barrel” (index.ts) em cada pasta para facilitar importações.
+
+2. Implementar o AppShell
+Objetivo: container único que orquestra Sidebar, Header e main
+
+Estrutura básica:
+
+tsx
+Copiar
+Editar
+// src/components/layout/AppShell.tsx
+import { ReactNode } from "react";
+import useSidebar from "@/lib/hooks/useSidebar";
+import Sidebar from "./Sidebar";
+import Header from "./Header";
+
+type AppShellProps = { children: ReactNode };
+export default function AppShell({ children }: AppShellProps) {
+  const { isOpen, toggle, isMobile } = useSidebar();
+  return (
+    <div className="flex h-screen">
+      <Sidebar isOpen={isOpen} isMobile={isMobile} toggle={toggle} />
+      <div className="flex-1 flex flex-col">
+        <Header toggleSidebar={toggle} />
+        <main className="flex-1 overflow-auto p-6">{children}</main>
+      </div>
+    </div>
+  );
+}
+Hook useSidebar:
+
+Detecta largura de tela (useMediaQuery)
+
+Controla isOpen e isCollapsed
+
+Expõe toggle() e flags
+
+3. Montar Header e Sidebar
+Header.tsx
+
+Logo à esquerda (+ link para home)
+
+Botão hamburger (mobile) e toggle (desktop)
+
+Área para notificações/usuário no canto direito
+
+Sidebar.tsx
+
+Recebe isOpen, isMobile, toggle
+
+Renderiza <nav> com lista de links (icons + labels)
+
+Se isMobile && isOpen → overlay full-screen que fecha ao clicar fora
+
+Se desktop e collapse → renderiza somente icons
+
+4. Configurar Tailwind para estados e responsividade
+No tailwind.config.js inclua:
+
+js
+Copiar
+Editar
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        "hubb-purple": "#2D113F",
+        "hubb-red": "#C52339",
+      }
+    }
+  },
+  variants: {
+    extend: {
+      transitionProperty: ["hover", "focus"],
+    }
+  }
+};
+Use classes como lg:hidden, md:grid-cols-2, grid-cols-1 para adaptar layouts.
+
+5. Criar Layouts específicos por role
+Cada role terá seu layout próprio estendendo o AppShell:
+
+tsx
+Copiar
+Editar
+// src/layouts/AdminLayout.tsx
+import AppShell from "@/components/layout/AppShell";
+import AdminSidebar from "@/components/sidebar/AdminSidebar";
+
+export default function AdminLayout() {
+  return (
+    <AppShell>
+      {/* aqui poderia substituir o Sidebar padrão por um customizado */}
+      <AdminSidebar />
+      <AdminDashboard />
+    </AppShell>
+  );
+}
+Replicar para OwnerLayout, CollaboratorLayout (recebendo level), PatientLayout.
+
+6. Rotas e Guards
+React Router / Wouter
+
+Defina rotas aninhadas:
+
+tsx
+Copiar
+Editar
+<Route path="/admin/*" element={<PrivateRoute roles={["ADMIN"]}><AdminLayout/></PrivateRoute>} />
+<PrivateRoute>
+
+Recebe lista de roles permitidos
+
+Consulta AuthContext (JWT decodificado)
+
+Redireciona para /login ou /unauthorized
+
+7. Construir as Dashboard Pages
+Para cada pasta src/pages/*/Dashboard.tsx:
+
+Importar Card e Grid do ShadCN UI
+
+Seguir os layouts de grid especificados (3 col/2 col/1 col)
+
+Exibir os módulos/cards sugeridos (tabela, gráficos, atalhos)
+
+Exemplo básico:
+
+tsx
+Copiar
+Editar
+export default function AdminDashboard() {
+  return (
+    <div className="grid gap-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
+      <Card><CardTitle>Tenants Ativos</CardTitle><Chart/></Card>
+      <Card><CardTitle>Novos Usuários</CardTitle><Stat number={42}/></Card>
+      {/* ... */}
+    </div>
+  );
+}
+8. Testes e documentação
+Storybook
+
+Configure stories para AppShell, Sidebar, Header, Card
+
+Testes unitários
+
+React Testing Library para checar comportamento de collapse, responsividade
+
+Documentar
+
+No README.md, inclua seção “Como rodar o layout” e “Como criar novo módulo”
+
