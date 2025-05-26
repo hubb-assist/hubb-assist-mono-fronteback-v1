@@ -18,7 +18,7 @@ args = "HUBB Assist Backend"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "Frontend Dev Server"
+args = "HUBB Layout Server"
 
 [[workflows.workflow]]
 name = "HUBB Assist Backend"
@@ -30,12 +30,12 @@ args = "cd backend && python simple_main.py"
 waitForPort = 5000
 
 [[workflows.workflow]]
-name = "Frontend Dev Server"
+name = "HUBB Layout Server"
 author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd frontend && npm run dev"
+args = "cd frontend && python3 -m http.server 3000"
 waitForPort = 3000
 
 [deployment]
