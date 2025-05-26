@@ -6,9 +6,12 @@ Backend completo com documentação automática
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from typing import List, Optional
 import asyncpg
+import os
 
 # Schemas básicos para demonstração
 class UserBase(BaseModel):
@@ -100,10 +103,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/", tags=["🏠 Sistema"])
-async def root():
+# Servir arquivos estáticos do frontend
+frontend_dist = os.path.join(os.path.dirname(__file__), "..", "frontend", "dist")
+if os.path.exists(frontend_dist):
+    app.mount("/assets", StaticFiles(directory=os.path.join(frontend_dist, "assets")), name="assets")
+
+@app.get("/api", tags=["🏠 Sistema"])
+async def api_info():
     """
-    ## Endpoint Principal
+    ## Informações da API
     Retorna informações básicas sobre a API
     """
     return {
@@ -112,8 +120,7 @@ async def root():
         "status": "online",
         "environment": "production",
         "docs_url": "/docs",
-        "redoc_url": "/redoc",
-        "frontend_url": "https://hubb-assist-mono-fronteback-v1.replit.app:3000/"
+        "redoc_url": "/redoc"
     }
 
 @app.get("/api/status", tags=["🏠 Sistema"])
@@ -252,6 +259,27 @@ async def create_user(user: UserCreate):
         tenant_id=1,
         created_at="2024-01-01T12:00:00Z"
     )
+
+# Servir o frontend como fallback para todas as rotas não-API
+@app.get("/{full_path:path}")
+async def serve_frontend(full_path: str):
+    """
+    Serve o frontend React para todas as rotas que não são da API
+    """
+    frontend_dist = os.path.join(os.path.dirname(__file__), "..", "frontend", "dist")
+    
+    # Se o arquivo existe, serve ele
+    file_path = os.path.join(frontend_dist, full_path)
+    if os.path.exists(file_path) and os.path.isfile(file_path):
+        return FileResponse(file_path)
+    
+    # Senão, serve o index.html (para o React Router)
+    index_path = os.path.join(frontend_dist, "index.html")
+    if os.path.exists(index_path):
+        return FileResponse(index_path)
+    
+    # Se não encontrar nada, retorna 404
+    raise HTTPException(status_code=404, detail="Frontend not found")
 
 if __name__ == "__main__":
     import uvicorn
