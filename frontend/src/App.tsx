@@ -32,7 +32,7 @@ function App() {
       <DebugRouter />
       <Routes>
         {/* Dashboard Principal - AGORA É A PÁGINA ROLES */}
-        <Route path="/" element={
+        <Route index element={
           <div className="min-h-screen bg-gray-100 p-8">
             <div className="max-w-6xl mx-auto">
               <h1 className="text-3xl font-bold text-center mb-8">🏥 HUBB Assist - Dashboards por Role</h1>
