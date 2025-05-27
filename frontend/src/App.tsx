@@ -1,4 +1,15 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
+
+function DebugRouter() {
+  const location = useLocation()
+  
+  useEffect(() => {
+    console.log('🔍 Rota atual:', location.pathname)
+  }, [location])
+  
+  return null
+}
 import AppShell from './components/layout/AppShell'
 import Dashboard from './pages/Dashboard'
 import AdminDashboard from './pages/AdminDashboard'
@@ -12,6 +23,7 @@ import './index.css'
 function App() {
   return (
     <Router>
+      <DebugRouter />
       <Routes>
         {/* Dashboard Principal - AGORA É A PÁGINA ROLES */}
         <Route path="/" element={
