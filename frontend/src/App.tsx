@@ -286,6 +286,9 @@ function App() {
         
         {/* Página de teste do AuthContext */}
         <Route path="/auth-test" element={<AuthTest />} />
+        
+        {/* Rota 404 - DEVE SER A ÚLTIMA */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   )
