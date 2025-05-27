@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HUBB Assist - Dashboard Admin</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f8fafc; display: flex; min-height: 100vh; }
+        
+        /* SIDEBAR ROXA - ADMIN */
+        .sidebar {
+            width: 240px;
+            background: linear-gradient(180deg, #2D113F, #5B21B6);
+            color: white;
+            padding: 20px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        
+        .logo {
+            padding: 0 20px 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            margin-bottom: 20px;
+        }
+        
+        .logo h2 {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: white;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+        
+        .nav-item:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .nav-item.active {
+            background: rgba(255,255,255,0.2);
+            border-right: 3px solid white;
+        }
+        
+        /* CONTEÚDO PRINCIPAL */
+        .main-content {
+            margin-left: 240px;
+            padding: 30px;
+            width: calc(100% - 240px);
+        }
+        
+        .header {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            color: #5B21B6;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        .user-info {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 4px solid #5B21B6;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #5B21B6;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+        
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .card h3 {
+            color: #5B21B6;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+        
+        .tenant-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .tenant-item:last-child {
+            border-bottom: none;
+        }
+        
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .status-active {
+            background: #dcfce7;
+            color: #166534;
+        }
+        
+        .status-inactive {
+            background: #fecaca;
+            color: #991b1b;
+        }
+        
+        .alert {
+            background: #fef3c7;
+            border: 1px solid #fbbf24;
+            color: #92400e;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #5B21B6;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s;
+            z-index: 1000;
+        }
+        
+        .back-btn:hover {
+            background: #4c1d95;
+        }
+    </style>
+</head>
+<body>
+    <!-- SIDEBAR ROXA -->
+    <div class="sidebar">
+        <div class="logo">
+            <h2>🏥 HUBB Assist</h2>
+            <p style="font-size: 0.8rem; opacity: 0.8;">Administrador</p>
+        </div>
+        
+        <a href="#" class="nav-item active">📊 Dashboard</a>
+        <a href="#" class="nav-item">🏢 Tenants</a>
+        <a href="#" class="nav-item">👥 Usuários</a>
+        <a href="#" class="nav-item">⚙️ Configurações</a>
+        <a href="#" class="nav-item">💰 HUBB Core</a>
+        <a href="#" class="nav-item">🦷 HUBB HOF</a>
+        <a href="#" class="nav-item">👁️ HUBB Vision</a>
+        <a href="#" class="nav-item">👤 HUBB RH</a>
+        <a href="#" class="nav-item">🤖 HUBB IA</a>
+    </div>
+    
+    <!-- CONTEÚDO PRINCIPAL -->
+    <div class="main-content">
+        <div class="header">
+            <h1>Dashboard Administrativo</h1>
+            <div class="user-info">
+                <strong>Dr. João Silva</strong><br>
+                Administrador
+            </div>
+        </div>
+        
+        <!-- ESTATÍSTICAS -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">47</div>
+                <div class="stat-label">Clínicas Ativas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2,341</div>
+                <div class="stat-label">Usuários Totais</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">R$ 89.4K</div>
+                <div class="stat-label">Receita Mensal</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">98.5%</div>
+                <div class="stat-label">Uptime Sistema</div>
+            </div>
+        </div>
+        
+        <!-- CONTEÚDO -->
+        <div class="content-grid">
+            <div class="card">
+                <h3>Clínicas Recentes</h3>
+                
+                <div class="tenant-item">
+                    <div>
+                        <strong>Clínica Odonto Plus</strong><br>
+                        <small style="color: #6b7280;">23 usuários • R$ 1,890/mês</small>
+                    </div>
+                    <span class="status-badge status-active">Ativa</span>
+                </div>
+                
+                <div class="tenant-item">
+                    <div>
+                        <strong>Dental Care Center</strong><br>
+                        <small style="color: #6b7280;">15 usuários • R$ 1,290/mês</small>
+                    </div>
+                    <span class="status-badge status-active">Ativa</span>
+                </div>
+                
+                <div class="tenant-item">
+                    <div>
+                        <strong>Sorriso Perfeito</strong><br>
+                        <small style="color: #6b7280;">8 usuários • R$ 890/mês</small>
+                    </div>
+                    <span class="status-badge status-inactive">Suspensa</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>Alertas do Sistema</h3>
+                
+                <div class="alert">
+                    ⚠️ 3 clínicas com pagamento em atraso
+                </div>
+                
+                <div class="alert">
+                    🔄 Atualização do sistema agendada para 23h
+                </div>
+                
+                <div style="margin-top: 20px;">
+                    <h4 style="color: #5B21B6; margin-bottom: 10px;">Módulos HUBB</h4>
+                    <div style="font-size: 0.9rem; line-height: 1.6;">
+                        <div>✅ HUBB Core: 47/47 clínicas</div>
+                        <div>✅ HUBB HOF: 23/47 clínicas</div>
+                        <div>✅ HUBB Vision: 31/47 clínicas</div>
+                        <div>✅ HUBB RH: 18/47 clínicas</div>
+                        <div>✅ HUBB IA: 41/47 clínicas</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <a href="/roles" class="back-btn">← Voltar</a>
+</body>
+</html>
