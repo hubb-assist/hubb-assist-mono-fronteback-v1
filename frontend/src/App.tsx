@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
-import { AuthProvider } from './context/AuthContext'
 
 function DebugRouter() {
   const location = useLocation()
@@ -24,10 +23,9 @@ import './index.css'
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <DebugRouter />
-        <Routes>
+    <Router>
+      <DebugRouter />
+      <Routes>
         {/* Dashboard Principal - AGORA É A PÁGINA ROLES */}
         <Route path="/" element={
           <div className="min-h-screen bg-gray-100 p-8">
@@ -289,8 +287,7 @@ function App() {
         {/* Página de teste do AuthContext */}
         <Route path="/auth-test" element={<AuthTest />} />
       </Routes>
-      </Router>
-    </AuthProvider>
+    </Router>
   )
 }
 
