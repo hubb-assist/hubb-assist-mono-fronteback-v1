@@ -4,52 +4,9 @@ interface HeaderProps {
   onToggleSidebar: () => void
   collapsed: boolean
   isMobile: boolean
-  userType?: 'ADMIN' | 'DONO_CLINICA' | 'COLABORADOR' | 'PACIENTE' | 'COLAB_N1' | 'COLAB_N2' | 'COLAB_N3'
 }
 
-const Header = ({ onToggleSidebar, userType = 'ADMIN' }: HeaderProps) => {
-  const getUserInfo = () => {
-    switch (userType) {
-      case 'ADMIN':
-        return {
-          name: 'Sistema Admin',
-          role: 'Administrador',
-          title: 'Painel Administrativo',
-          subtitle: 'Gestão global da plataforma HUBB Assist'
-        }
-      case 'DONO_CLINICA':
-        return {
-          name: 'Dr. Roberto Silva',
-          role: 'Proprietário',
-          title: 'Gestão da Clínica',
-          subtitle: 'Clínica Sorrir Mais'
-        }
-      case 'COLABORADOR':
-        return {
-          name: 'Ana Costa',
-          role: 'Colaboradora',
-          title: 'Área de Trabalho',
-          subtitle: 'Sistema operacional'
-        }
-      case 'PACIENTE':
-        return {
-          name: 'Maria Silva',
-          role: 'Paciente',
-          title: 'Meu Portal',
-          subtitle: 'Área do paciente'
-        }
-      default:
-        return {
-          name: 'Usuário',
-          role: 'Sistema',
-          title: 'Dashboard',
-          subtitle: 'HUBB Assist'
-        }
-    }
-  }
-
-  const userInfo = getUserInfo()
-
+const Header = ({ onToggleSidebar }: HeaderProps) => {
   return (
     <header className="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-6">
       <div className="flex items-center gap-4">
@@ -61,8 +18,8 @@ const Header = ({ onToggleSidebar, userType = 'ADMIN' }: HeaderProps) => {
         </button>
         
         <div>
-          <h1 className="text-xl font-semibold text-gray-900">{userInfo.title}</h1>
-          <p className="text-sm text-gray-600">{userInfo.subtitle}</p>
+          <h1 className="text-xl font-semibold text-gray-900">Dashboard</h1>
+          <p className="text-sm text-gray-600">Visão geral do sistema HUBB Assist</p>
         </div>
       </div>
 
@@ -73,12 +30,14 @@ const Header = ({ onToggleSidebar, userType = 'ADMIN' }: HeaderProps) => {
         </button>
         
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center">
-            <span className="text-white font-bold text-sm">{userInfo.name.charAt(0)}</span>
-          </div>
+          <img 
+            src="/assets/images/hubb_pet_icon.png" 
+            alt="Avatar" 
+            className="w-8 h-8 rounded-full"
+          />
           <div className="hidden sm:block">
-            <div className="text-sm font-medium text-gray-900">{userInfo.name}</div>
-            <div className="text-xs text-gray-600">{userInfo.role}</div>
+            <div className="text-sm font-medium text-gray-900">Dr. João Silva</div>
+            <div className="text-xs text-gray-600">Administrador</div>
           </div>
         </div>
       </div>

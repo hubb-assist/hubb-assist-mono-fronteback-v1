@@ -15,7 +15,10 @@ export default defineConfig({
       '.replit.app',
       '.spock.replit.dev'
     ],
-    hmr: false,
+    hmr: {
+      port: 24678,
+      host: '0.0.0.0'
+    },
     proxy: {
       '/api': {
         target: 'http://localhost:5000',
@@ -36,13 +39,6 @@ export default defineConfig({
         target: 'http://localhost:5000',
         changeOrigin: true,
         secure: false
-      }
-    }
-  },
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks: undefined,
       }
     }
   },

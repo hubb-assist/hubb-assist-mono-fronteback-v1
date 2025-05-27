@@ -6,12 +6,9 @@ Backend completo com documentação automática
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordRequestForm
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from typing import List, Optional
 import asyncpg
-import os
 
 # Schemas básicos para demonstração
 class UserBase(BaseModel):
@@ -103,15 +100,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Servir apenas assets por enquanto
-frontend_dist = os.path.join(os.path.dirname(__file__), "..", "frontend", "dist")
-if os.path.exists(frontend_dist):
-    app.mount("/assets", StaticFiles(directory=os.path.join(frontend_dist, "assets")), name="assets")
-
-@app.get("/api", tags=["🏠 Sistema"])
-async def api_info():
+@app.get("/", tags=["🏠 Sistema"])
+async def root():
     """
-    ## Informações da API
+    ## Endpoint Principal
     Retorna informações básicas sobre a API
     """
     return {
@@ -120,7 +112,8 @@ async def api_info():
         "status": "online",
         "environment": "production",
         "docs_url": "/docs",
-        "redoc_url": "/redoc"
+        "redoc_url": "/redoc",
+        "frontend_url": "https://hubb-assist-mono-fronteback-v1.replit.app:3000/"
     }
 
 @app.get("/api/status", tags=["🏠 Sistema"])
@@ -259,18 +252,6 @@ async def create_user(user: UserCreate):
         tenant_id=1,
         created_at="2024-01-01T12:00:00Z"
     )
-
-# *** IMPORTANTE: SPA assets e fallback devem vir APÓS todas as rotas da API ***
-# Serve apenas os assets em /assets
-frontend_dist = os.path.join(os.path.dirname(__file__), "..", "frontend", "dist")
-if os.path.exists(frontend_dist):
-    app.mount("/assets", StaticFiles(directory=os.path.join(frontend_dist, "assets")), name="assets")
-
-# Catch-all para garantir que qualquer rota não-API retorne o index.html
-@app.get("/{full_path:path}", include_in_schema=False)
-async def spa_fallback(full_path: str):
-    """Fallback para SPA - serve index.html para rotas não encontradas"""
-    return FileResponse(os.path.join(frontend_dist, "index.html"))
 
 if __name__ == "__main__":
     import uvicorn
