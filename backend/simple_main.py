@@ -262,6 +262,7 @@ async def create_user(user: UserCreate):
 
 # *** IMPORTANTE: SPA mount deve vir APÓS todas as rotas da API ***
 # Serve o SPA React para todas as rotas não-API
+frontend_dist = os.path.join(os.path.dirname(__file__), "..", "frontend", "dist")
 if os.path.exists(frontend_dist):
     app.mount("/", StaticFiles(directory=frontend_dist, html=True), name="spa")
 
