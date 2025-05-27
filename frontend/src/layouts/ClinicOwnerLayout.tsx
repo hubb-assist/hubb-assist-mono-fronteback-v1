@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
 import AppShell from "../components/layout/AppShell";
-import ClinicOwnerSidebar from "../components/layout/ClinicOwnerSidebar";
 
 interface ClinicOwnerLayoutProps {
   children: ReactNode;
