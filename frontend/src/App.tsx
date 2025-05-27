@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
+import { AuthProvider } from './context/AuthContext'
 
 function DebugRouter() {
   const location = useLocation()
@@ -18,13 +19,15 @@ import CollabLevel1Dashboard from './pages/CollabLevel1Dashboard'
 import CollabLevel2Dashboard from './pages/CollabLevel2Dashboard'
 import CollabLevel3Dashboard from './pages/CollabLevel3Dashboard'
 import PatientDashboard from './pages/PatientDashboard'
+import AuthTest from './pages/AuthTest'
 import './index.css'
 
 function App() {
   return (
-    <Router>
-      <DebugRouter />
-      <Routes>
+    <AuthProvider>
+      <Router>
+        <DebugRouter />
+        <Routes>
         {/* Dashboard Principal - AGORA É A PÁGINA ROLES */}
         <Route path="/" element={
           <div className="min-h-screen bg-gray-100 p-8">
@@ -282,8 +285,12 @@ function App() {
             <Dashboard />
           </AppShell>
         } />
+        
+        {/* Página de teste do AuthContext */}
+        <Route path="/auth-test" element={<AuthTest />} />
       </Routes>
-    </Router>
+      </Router>
+    </AuthProvider>
   )
 }
 
