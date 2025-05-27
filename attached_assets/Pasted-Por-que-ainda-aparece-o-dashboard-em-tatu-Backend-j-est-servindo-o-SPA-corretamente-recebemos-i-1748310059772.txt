@@ -1,0 +1,62 @@
+Por que ainda aparece o dashboard em /tatu
+Backend já está servindo o SPA corretamente – recebemos index.html, o bundle carrega e o React Router assume a URL /tatu.
+
+No frontend não existe uma rota 404 isolada.
+
+Quando nenhuma rota coincide, o <Routes> continua renderizando o elemento do primeiro <Route> cujo path é “/” se esse elemento contém filhos JSX (não é apenas element={<Navigate …/>}).
+
+No seu caso, o primeiro <Route path="/" element={…}> contém a página de seleção de roles. Esse elemento está dentro de <div>…</div> sem proteção e, lá dentro, você cria vários links – mas em cima dele também existe o componente AppShell no <Route path="/dashboard-original">.
+
+O React Router considera o path="/" (“/”) como rota “raiz” e, na falta de outra correspondência melhor, ele ainda pode acabar escolhendo algum elemento que esteja na árvore – principalmente se você estiver usando <Link> dentro dele que redireciona para /admin logo depois do first render. O resultado visual é parecer que deu fallback para “admin”.
+
+Como corrigir, passo a passo
+Crie um componente 404 simples
+
+tsx
+Copiar
+Editar
+// src/pages/NotFound.tsx
+export default function NotFound() {
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center">
+      <h1 className="text-4xl font-bold mb-4">404 – Página não encontrada</h1>
+      <p className="mb-6">A URL digitada não existe.</p>
+      <a href="/" className="px-4 py-2 bg-purple-600 text-white rounded-md">Voltar à página inicial</a>
+    </div>
+  );
+}
+Adicione exatamente UM <Route path="*"> no final da lista e não o envolva em AppShell:
+
+tsx
+Copiar
+Editar
+import NotFound from "./pages/NotFound";
+
+…
+
+<Routes>
+  {/* …todas as rotas válidas… */}
+
+  {/* 404 deve ficar por último e fora de AppShell */}
+  <Route path="*" element={<NotFound />} />
+</Routes>
+Garanta que o <Route path="/"> permaneça somente para “/”
+
+Ele já é “exato” em RR v6, mas se você aninha outro <Route path="*"> dentro dele, o fallback 404 ficará preso lá dentro.
+
+Mantenha seu <Route path="/"> como está – mas não coloque outros Routes como filhos dele; eles já estão no mesmo nível, isso está correto.
+
+Rebuild (npm run build) e atualize.
+
+Acesse /admin → AdminDashboard.
+
+Acesse /tatu → página 404 criada.
+
+Verificação rápida
+Se após esses passos /tatu ainda mostrar algo diferente da 404, abra o DevTools e verifique:
+
+js
+Copiar
+Editar
+console.log(location.pathname); // deve ser "/tatu"
+Se o pathname continua trocando para “/admin” ou “/”, algum código de redirecionamento está rodando (por exemplo, um <Navigate> ou navigate("/admin") em um useEffect). Mas, na maioria dos projetos, simplesmente adicionar o Route path="*" fora de qualquer layout resolve de imediato.
