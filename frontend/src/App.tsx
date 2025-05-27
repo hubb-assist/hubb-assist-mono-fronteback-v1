@@ -23,6 +23,10 @@ import Simple404 from './pages/Simple404'
 import './index.css'
 
 function App() {
+  // 🚨 TESTE EXTREMO - VAMOS VER SE ISSO EXECUTA
+  console.log('🔥 APP.TSX EXECUTANDO!', window.location.pathname)
+  alert(`🔥 App carregou! URL atual: ${window.location.pathname}`)
+  
   return (
     <Router>
       <DebugRouter />
