@@ -12,10 +12,18 @@ interface AppShellProps {
 }
 
 const AppShell = ({ children, userType = 'ADMIN' }: AppShellProps) => {
+  // 🎯 DEBUG - ADICIONE ESSAS LINHAS:
+  const location = useLocation()
+  
+  console.log('🎯 AppShell renderizando:', {
+    userType,
+    pathname: location.pathname,
+    timestamp: new Date().toLocaleTimeString()
+  })
+  
   const [collapsed, setCollapsed] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
-  const location = useLocation()
 
   useEffect(() => {
     const checkMobile = () => {
@@ -43,20 +51,28 @@ const AppShell = ({ children, userType = 'ADMIN' }: AppShellProps) => {
       onClose: () => setMobileOpen(false)
     }
 
+    // 🎯 DEBUG - ADICIONE ESTE LOG:
+    console.log('🔧 Renderizando sidebar para userType:', userType)
+
     switch (userType) {
       case 'ADMIN':
+        console.log('📋 Renderizando AdminSidebar')
         return <AdminSidebar {...commonProps} />
       case 'DONO_CLINICA':
+        console.log('🏥 Renderizando ClinicOwnerSidebar')
         return <ClinicOwnerSidebar {...commonProps} />
       case 'COLABORADOR':
         // Determinar nível baseado na rota
         const level = location.pathname.includes('level1') ? 1 :
                      location.pathname.includes('level2') ? 2 :
                      location.pathname.includes('level3') ? 3 : 1
+        console.log('👥 Renderizando CollaboratorSidebar, level:', level)
         return <CollaboratorSidebar {...commonProps} level={level} />
       case 'PACIENTE':
+        console.log('🏥 Renderizando PatientSidebar')
         return <PatientSidebar {...commonProps} />
       default:
+        console.log('⚠️ UserType não reconhecido, usando AdminSidebar como padrão')
         return <AdminSidebar {...commonProps} />
     }
   }
