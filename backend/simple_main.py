@@ -274,10 +274,7 @@ async def serve_frontend(full_path: str):
         if os.path.exists(roles_path):
             return FileResponse(roles_path)
     
-    if full_path == "admin":
-        admin_path = os.path.join(frontend_dist, "admin.html")
-        if os.path.exists(admin_path):
-            return FileResponse(admin_path)
+    # Remover rota específica para admin - vai usar React Router
     
     # Se o arquivo existe, serve ele
     file_path = os.path.join(frontend_dist, full_path)
