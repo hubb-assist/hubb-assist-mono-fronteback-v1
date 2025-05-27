@@ -19,6 +19,7 @@ import CollabLevel2Dashboard from './pages/CollabLevel2Dashboard'
 import CollabLevel3Dashboard from './pages/CollabLevel3Dashboard'
 import PatientDashboard from './pages/PatientDashboard'
 import AuthTest from './pages/AuthTest'
+import NotFound from './pages/NotFound'
 import './index.css'
 
 function App() {
