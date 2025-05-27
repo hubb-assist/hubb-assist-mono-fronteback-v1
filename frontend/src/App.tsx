@@ -12,14 +12,14 @@ function DebugRouter() {
 }
 import AppShell from './components/layout/AppShell'
 import Dashboard from './pages/Dashboard'
-import AdminDashboard from './pages/AdminDashboard'
 import ClinicOwnerDashboard from './pages/ClinicOwnerDashboard'
 import CollabLevel1Dashboard from './pages/CollabLevel1Dashboard'
 import CollabLevel2Dashboard from './pages/CollabLevel2Dashboard'
 import CollabLevel3Dashboard from './pages/CollabLevel3Dashboard'
 import PatientDashboard from './pages/PatientDashboard'
 import AuthTest from './pages/AuthTest'
-import NotFound from './pages/NotFound'
+import SimpleAdmin from './pages/SimpleAdmin'
+import Simple404 from './pages/Simple404'
 import './index.css'
 
 function App() {
@@ -134,12 +134,8 @@ function App() {
           </div>
         } />
         
-        {/* Dashboards por Role */}
-        <Route path="/admin" element={
-          <AppShell userType="ADMIN">
-            <AdminDashboard />
-          </AppShell>
-        } />
+        {/* Dashboards por Role - TESTE SIMPLES */}
+        <Route path="/admin" element={<SimpleAdmin />} />
         
         <Route path="/clinic-owner" element={
           <AppShell userType="DONO_CLINICA">
@@ -288,8 +284,8 @@ function App() {
         {/* Página de teste do AuthContext */}
         <Route path="/auth-test" element={<AuthTest />} />
         
-        {/* Rota 404 - DEVE SER A ÚLTIMA E FORA DO AppShell */}
-        <Route path="*" element={<NotFound />} />
+        {/* Rota 404 - TESTE SIMPLES */}
+        <Route path="*" element={<Simple404 />} />
       </Routes>
     </Router>
   )
