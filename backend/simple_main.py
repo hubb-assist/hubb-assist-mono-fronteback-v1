@@ -263,6 +263,8 @@ async def create_user(user: UserCreate):
 # *** IMPORTANTE: SPA assets e fallback devem vir APÓS todas as rotas da API ***
 # Serve apenas os assets em /assets
 frontend_dist = os.path.join(os.path.dirname(__file__), "..", "frontend", "dist")
+if os.path.exists(frontend_dist):
+    app.mount("/assets", StaticFiles(directory=os.path.join(frontend_dist, "assets")), name="assets")
 
 # Catch-all para garantir que qualquer rota não-API retorne o index.html
 @app.get("/{full_path:path}", include_in_schema=False)
