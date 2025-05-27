@@ -103,12 +103,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Servir arquivos estáticos do frontend
+# Servir apenas assets por enquanto
 frontend_dist = os.path.join(os.path.dirname(__file__), "..", "frontend", "dist")
 if os.path.exists(frontend_dist):
     app.mount("/assets", StaticFiles(directory=os.path.join(frontend_dist, "assets")), name="assets")
-    # Serve o SPA React para todas as rotas não-API
-    app.mount("/", StaticFiles(directory=frontend_dist, html=True), name="spa")
 
 @app.get("/api", tags=["🏠 Sistema"])
 async def api_info():
@@ -262,7 +260,10 @@ async def create_user(user: UserCreate):
         created_at="2024-01-01T12:00:00Z"
     )
 
-
+# *** IMPORTANTE: SPA mount deve vir APÓS todas as rotas da API ***
+# Serve o SPA React para todas as rotas não-API
+if os.path.exists(frontend_dist):
+    app.mount("/", StaticFiles(directory=frontend_dist, html=True), name="spa")
 
 if __name__ == "__main__":
     import uvicorn
