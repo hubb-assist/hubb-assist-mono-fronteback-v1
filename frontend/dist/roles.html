@@ -3,37 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HUBB Assist - Página Roles</title>
+    <title>HUBB Assist - Dashboards por Role</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #4ade80, #06b6d4);
-            color: white;
+            background: #f3f4f6;
             margin: 0;
-            padding: 40px;
+            padding: 32px;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
         }
         .container {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 40px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
+            max-width: 1200px;
+            margin: 0 auto;
         }
         h1 {
-            font-size: 3em;
-            margin-bottom: 20px;
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 32px;
+            color: #1f2937;
+        }
+        .info-box {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 32px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .info-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 16px;
+            color: #1f2937;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        .role-card {
+            padding: 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+        }
+        .role-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+        }
+        .admin { background: linear-gradient(135deg, #e9d5ff, #f3e8ff); border-color: #a855f7; }
+        .owner { background: linear-gradient(135deg, #dbeafe, #eff6ff); border-color: #3b82f6; }
+        .collab1 { background: linear-gradient(135deg, #dcfce7, #f0fdf4); border-color: #22c55e; }
+        .collab2 { background: linear-gradient(135deg, #fed7aa, #fef3c7); border-color: #f97316; }
+        .collab3 { background: linear-gradient(135deg, #fecaca, #fef2f2); border-color: #ef4444; }
+        .patient { background: linear-gradient(135deg, #fce7f3, #fdf2f8); border-color: #ec4899; }
+        
+        .role-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .role-subtitle {
+            font-size: 0.875rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .role-desc {
+            font-size: 0.875rem;
+            margin-bottom: 12px;
+            color: #6b7280;
+        }
+        .role-features {
+            font-size: 0.75rem;
+        }
+        .role-features p {
+            margin: 4px 0;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            margin-top: 32px;
+            padding: 12px 24px;
+            background: #7c3aed;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        .back-btn:hover {
+            background: #6d28d9;
+        }
+        
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .grid-3 { grid-template-columns: 1fr; }
+            .container { padding: 16px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🏥 PÁGINA ROLES</h1>
-        <p>Esta é a página /roles - com fundo verde/azul diferente!</p>
-        <a href="/" style="color: white; padding: 10px 20px; background: rgba(255,255,255,0.2); border-radius: 5px; text-decoration: none;">Voltar</a>
+        <h1>🏥 HUBB Assist - Dashboards por Role</h1>
+        
+        <div class="info-box">
+            <h2 class="info-title">Diferenças por Role:</h2>
+            <div class="grid-2">
+                <div>
+                    <h3 style="color: #7c3aed; font-weight: bold;">SIDEBAR CORES:</h3>
+                    <ul style="font-size: 0.875rem; line-height: 1.5;">
+                        <li>• <span style="color: #7c3aed;">ADMIN</span> - Roxo (gestão global)</li>
+                        <li>• <span style="color: #3b82f6;">PROPRIETÁRIO</span> - Azul (gestão clínica)</li>
+                        <li>• <span style="color: #22c55e;">COLABORADOR</span> - Verde (operacional)</li>
+                        <li>• <span style="color: #ec4899;">PACIENTE</span> - Rosa (área pessoal)</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="color: #7c3aed; font-weight: bold;">FUNCIONALIDADES:</h3>
+                    <ul style="font-size: 0.875rem; line-height: 1.5;">
+                        <li>• <strong>Admin:</strong> Tenants, usuários, sistema</li>
+                        <li>• <strong>Proprietário:</strong> Financeiro, equipe, módulos</li>
+                        <li>• <strong>Colaborador:</strong> Agenda, pacientes, estoque</li>
+                        <li>• <strong>Paciente:</strong> Consultas, dados, orçamentos</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-3">
+            <a href="/admin" class="role-card admin">
+                <h3 class="role-title" style="color: #7c3aed;">ADMIN</h3>
+                <p class="role-subtitle" style="color: #4b5563;">Sidebar: ROXO</p>
+                <p class="role-desc">Visão global de tenants, usuários e sistema</p>
+                <div class="role-features" style="color: #7c3aed;">
+                    <p>• Controle de todas as clínicas</p>
+                    <p>• Métricas de receita SaaS</p>
+                    <p>• Alertas de sistema</p>
+                </div>
+            </a>
+            
+            <a href="/clinic-owner" class="role-card owner">
+                <h3 class="role-title" style="color: #3b82f6;">PROPRIETÁRIO</h3>
+                <p class="role-subtitle" style="color: #4b5563;">Sidebar: AZUL</p>
+                <p class="role-desc">Gestão completa da clínica</p>
+                <div class="role-features" style="color: #3b82f6;">
+                    <p>• Faturamento e lucros</p>
+                    <p>• Gestão da equipe</p>
+                    <p>• Módulos HUBB ativos</p>
+                </div>
+            </a>
+            
+            <a href="/collab-level1" class="role-card collab1">
+                <h3 class="role-title" style="color: #22c55e;">COLABORADOR N1</h3>
+                <p class="role-subtitle" style="color: #4b5563;">Sidebar: VERDE (Recepção)</p>
+                <p class="role-desc">Recepcionista/Auxiliar</p>
+                <div class="role-features" style="color: #22c55e;">
+                    <p>• Agenda do dia</p>
+                    <p>• Cadastro de pacientes</p>
+                    <p>• Sala de espera</p>
+                </div>
+            </a>
+            
+            <a href="/collab-level2" class="role-card collab2">
+                <h3 class="role-title" style="color: #f97316;">COLABORADOR N2</h3>
+                <p class="role-subtitle" style="color: #4b5563;">Sidebar: VERDE (Coordenação)</p>
+                <p class="role-desc">Gestão de estoque</p>
+                <div class="role-features" style="color: #f97316;">
+                    <p>• Estoque crítico</p>
+                    <p>• Relatórios operacionais</p>
+                    <p>• Controle de insumos</p>
+                </div>
+            </a>
+            
+            <a href="/collab-level3" class="role-card collab3">
+                <h3 class="role-title" style="color: #ef4444;">COLABORADOR N3</h3>
+                <p class="role-subtitle" style="color: #4b5563;">Sidebar: VERDE (Supervisão)</p>
+                <p class="role-desc">Gestão financeira avançada</p>
+                <div class="role-features" style="color: #ef4444;">
+                    <p>• Orçamentos e aprovações</p>
+                    <p>• Análise financeira</p>
+                    <p>• Controle de margem</p>
+                </div>
+            </a>
+            
+            <a href="/patient" class="role-card patient">
+                <h3 class="role-title" style="color: #ec4899;">PACIENTE</h3>
+                <p class="role-subtitle" style="color: #4b5563;">Sidebar: ROSA</p>
+                <p class="role-desc">Portal do paciente</p>
+                <div class="role-features" style="color: #ec4899;">
+                    <p>• Minhas consultas</p>
+                    <p>• Dados pessoais</p>
+                    <p>• Orçamentos pendentes</p>
+                </div>
+            </a>
+        </div>
+        
+        <div style="text-align: center;">
+            <a href="/" class="back-btn">← Voltar à Página Principal</a>
+        </div>
     </div>
 </body>
 </html>
