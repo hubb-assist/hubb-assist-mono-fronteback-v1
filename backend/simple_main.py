@@ -266,6 +266,12 @@ frontend_dist = os.path.join(os.path.dirname(__file__), "..", "frontend", "dist"
 if os.path.exists(frontend_dist):
     app.mount("/", StaticFiles(directory=frontend_dist, html=True), name="spa")
 
+# Catch-all para garantir que qualquer rota não-API retorne o index.html
+@app.get("/{full_path:path}", include_in_schema=False)
+async def spa_fallback(full_path: str):
+    """Fallback para SPA - serve index.html para rotas não encontradas"""
+    return FileResponse(os.path.join(frontend_dist, "index.html"))
+
 if __name__ == "__main__":
     import uvicorn
     
