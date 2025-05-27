@@ -7,7 +7,7 @@ export default function AdminDashboard() {
       {/* Header */}
       <div className="border-b pb-4">
         <h1 className="text-3xl font-bold text-gray-900">Dashboard Administrativo</h1>
-        <p className="text-gray-600">Visão geral da plataforma HUBB Assist SaaS</p>
+        <p className="text-gray-600">Visão geral do sistema HUBB Assist</p>
       </div>
 
       {/* Stats Grid */}
