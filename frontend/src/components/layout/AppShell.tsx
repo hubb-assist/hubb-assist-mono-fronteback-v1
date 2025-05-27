@@ -8,7 +8,7 @@ import PatientSidebar from './PatientSidebar'
 
 interface AppShellProps {
   children: React.ReactNode
-  userType?: 'ADMIN' | 'DONO_CLINICA' | 'COLABORADOR' | 'PACIENTE'
+  userType?: 'ADMIN' | 'DONO_CLINICA' | 'COLABORADOR' | 'PACIENTE' | 'COLAB_N1' | 'COLAB_N2' | 'COLAB_N3'
 }
 
 const AppShell = ({ children, userType = 'ADMIN' }: AppShellProps) => {

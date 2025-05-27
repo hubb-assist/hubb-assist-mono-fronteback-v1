@@ -5,8 +5,7 @@ export default function AuthTest() {
   const { user, login, logout, hasAnyRole } = useAuth();
   const [testToken, setTestToken] = useState('');
 
-  // Token de teste simulado (JWT válido com roles)
-  const mockToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwicm9sZXMiOlsiQURNSU4iLCJET05PX0RFX0NMSU5JQ0EiXSwiaWF0IjoxNTE2MjM5MDIyfQ.example';
+
 
   const handleTestLogin = () => {
     if (testToken.trim()) {

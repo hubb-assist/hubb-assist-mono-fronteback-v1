@@ -4,7 +4,7 @@ interface HeaderProps {
   onToggleSidebar: () => void
   collapsed: boolean
   isMobile: boolean
-  userType?: 'ADMIN' | 'DONO_CLINICA' | 'COLABORADOR' | 'PACIENTE'
+  userType?: 'ADMIN' | 'DONO_CLINICA' | 'COLABORADOR' | 'PACIENTE' | 'COLAB_N1' | 'COLAB_N2' | 'COLAB_N3'
 }
 
 const Header = ({ onToggleSidebar, userType = 'ADMIN' }: HeaderProps) => {

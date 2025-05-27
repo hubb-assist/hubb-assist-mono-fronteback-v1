@@ -107,6 +107,8 @@ app.add_middleware(
 frontend_dist = os.path.join(os.path.dirname(__file__), "..", "frontend", "dist")
 if os.path.exists(frontend_dist):
     app.mount("/assets", StaticFiles(directory=os.path.join(frontend_dist, "assets")), name="assets")
+    # Serve o SPA React para todas as rotas não-API
+    app.mount("/", StaticFiles(directory=frontend_dist, html=True), name="spa")
 
 @app.get("/api", tags=["🏠 Sistema"])
 async def api_info():
@@ -260,34 +262,7 @@ async def create_user(user: UserCreate):
         created_at="2024-01-01T12:00:00Z"
     )
 
-# Servir o frontend como fallback para todas as rotas não-API
-@app.get("/{full_path:path}")
-async def serve_frontend(full_path: str):
-    """
-    Serve o frontend React para todas as rotas que não são da API
-    """
-    frontend_dist = os.path.join(os.path.dirname(__file__), "..", "frontend", "dist")
-    
-    # Rotas específicas
-    if full_path == "roles":
-        roles_path = os.path.join(frontend_dist, "roles.html")
-        if os.path.exists(roles_path):
-            return FileResponse(roles_path)
-    
-    # Remover rota específica para admin - vai usar React Router
-    
-    # Se o arquivo existe, serve ele
-    file_path = os.path.join(frontend_dist, full_path)
-    if os.path.exists(file_path) and os.path.isfile(file_path):
-        return FileResponse(file_path)
-    
-    # Senão, serve o index.html (para o React Router)
-    index_path = os.path.join(frontend_dist, "index.html")
-    if os.path.exists(index_path):
-        return FileResponse(index_path)
-    
-    # Se não encontrar nada, retorna 404
-    raise HTTPException(status_code=404, detail="Frontend not found")
+
 
 if __name__ == "__main__":
     import uvicorn
