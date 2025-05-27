@@ -268,6 +268,12 @@ async def serve_frontend(full_path: str):
     """
     frontend_dist = os.path.join(os.path.dirname(__file__), "..", "frontend", "dist")
     
+    # Rotas específicas
+    if full_path == "roles":
+        roles_path = os.path.join(frontend_dist, "roles.html")
+        if os.path.exists(roles_path):
+            return FileResponse(roles_path)
+    
     # Se o arquivo existe, serve ele
     file_path = os.path.join(frontend_dist, full_path)
     if os.path.exists(file_path) and os.path.isfile(file_path):
